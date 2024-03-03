@@ -10,6 +10,7 @@ import com.devtomato.loan.repository.CounselRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
@@ -93,5 +94,28 @@ class CounselServiceTest {
 
         // then
         Assertions.assertThrows(BaseException.class, () -> counselService.get(findId));
+    }
+
+    @Test
+    void Should_ReturnUpdatedResponseOfExistCounselEntity_When_RequestUpdateExistCounselInfo() {
+        Long findId = 1L;
+
+        Counsel entity = Counsel.builder()
+                .counselId(1L)
+                .name("Harry Park")
+                .build();
+
+        Request request = Request.builder()
+                .name("DevTomato")
+                .build();
+
+        //Dirty Checking 때문에 주석함
+        //when(counselRepository.save(ArgumentMatchers.any(Counsel.class))).thenReturn(entity);
+        when(counselRepository.findById(findId)).thenReturn(Optional.ofNullable(entity));
+
+        Response actual = counselService.update(findId, request);
+
+        assertThat(actual.getCounselId()).isSameAs(findId);
+        assertThat(actual.getName()).isSameAs(request.getName());
     }
 }
