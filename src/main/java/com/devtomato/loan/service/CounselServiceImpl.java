@@ -62,4 +62,14 @@ public class CounselServiceImpl implements CounselService
 
         return modelMapper.map(counsel, Response.class);
     }
+
+    @Override
+    @Transactional(readOnly = false)
+    public void delete(Long counselId) {
+        Counsel counsel = counselRepository.findById(counselId).orElseThrow(() -> {
+            throw new BaseException(ResultType.SYSTEM_ERROR);
+        });
+
+        counsel.setIsDeleted(true);
+    }
 }
