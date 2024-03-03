@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CounselService
 {
-
     Response create(Request request);
+
+    Response get(Long counselId);
 }
