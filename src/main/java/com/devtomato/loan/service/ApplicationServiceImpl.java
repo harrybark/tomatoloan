@@ -4,6 +4,8 @@ import com.devtomato.loan.domain.Application;
 import com.devtomato.loan.dto.ApplicationDTO;
 import com.devtomato.loan.dto.ApplicationDTO.Request;
 import com.devtomato.loan.dto.ApplicationDTO.Response;
+import com.devtomato.loan.exception.BaseException;
+import com.devtomato.loan.exception.ResultType;
 import com.devtomato.loan.repository.ApplicationRespository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -29,5 +31,13 @@ public class ApplicationServiceImpl implements ApplicationService {
         Application savedApplication = applicationRespository.save(application);
 
         return modelMapper.map(savedApplication, Response.class);
+    }
+
+    @Override
+    public Response get(Long applicationId) {
+        Application application = applicationRespository.findById(applicationId).orElseThrow(() -> {
+            throw new BaseException(ResultType.SYSTEM_ERROR);
+        });
+        return modelMapper.map(application, Response.class);
     }
 }

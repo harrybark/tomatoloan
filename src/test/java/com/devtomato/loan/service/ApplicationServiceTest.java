@@ -5,7 +5,10 @@ import com.devtomato.loan.domain.Counsel;
 import com.devtomato.loan.dto.ApplicationDTO;
 import com.devtomato.loan.dto.ApplicationDTO.Request;
 import com.devtomato.loan.dto.ApplicationDTO.Response;
+import com.devtomato.loan.exception.BaseException;
+import com.devtomato.loan.exception.ResultType;
 import com.devtomato.loan.repository.ApplicationRespository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -56,5 +59,21 @@ class ApplicationServiceTest {
 
         // then
         assertThat(actual.getName()).isEqualTo(entity.getName());
+    }
+
+    @Test
+    public void Should_ReturnResponseOfExistApplicationEntity_When_RequestExistApplicationId() throws Exception {
+        // given
+        Long findId = 1L;
+
+        Application application = Application.builder()
+                .applicationId(1L)
+                .build();
+        // when
+        when(applicationRespository.findById(findId)).thenThrow(new BaseException(ResultType.SYSTEM_ERROR));
+
+        // then
+        Assertions.assertThrows(BaseException.class, () -> applicationService.get(findId));
+
     }
 }
