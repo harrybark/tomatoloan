@@ -6,6 +6,7 @@ import lombok.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class ApplicationDTO implements Serializable {
     @NoArgsConstructor
@@ -33,6 +34,14 @@ public class ApplicationDTO implements Serializable {
         private LocalDateTime appliedAt;
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
+    }
+
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    @Getter
+    public static class AcceptTermsDTO {
+        List<Long> acceptTermsIds;
     }
 
 }
