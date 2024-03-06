@@ -27,7 +27,6 @@ public class Application extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long applicationId;
 
-
     @Column(columnDefinition = "varchar(12) DEFAULT NULL COMMENT '신청자'")
     private String name;
 
