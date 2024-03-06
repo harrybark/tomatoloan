@@ -1,8 +1,6 @@
 package com.devtomato.loan.service;
 
 import com.devtomato.loan.domain.Application;
-import com.devtomato.loan.domain.Counsel;
-import com.devtomato.loan.dto.ApplicationDTO;
 import com.devtomato.loan.dto.ApplicationDTO.Request;
 import com.devtomato.loan.dto.ApplicationDTO.Response;
 import com.devtomato.loan.exception.BaseException;
@@ -18,9 +16,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -75,5 +73,27 @@ class ApplicationServiceTest {
         // then
         Assertions.assertThrows(BaseException.class, () -> applicationService.get(findId));
 
+    }
+
+    @Test
+    void Should_ReturnUpdatedResponseOfExistApplicationEntity_When_RequestUpdateExistApplicationInfo() {
+        Long findId = 1L;
+
+        Application entity = Application.builder()
+                .applicationId(1L)
+                .name("Harry Park")
+                .build();
+
+        Request request = Request.builder()
+                .name("DevTomato")
+                .build();
+
+        //Dirty Checking 때문에 주석함
+        when(applicationRespository.findById(findId)).thenReturn(Optional.ofNullable(entity));
+
+        Response actual = applicationService.update(findId, request);
+
+        assertThat(actual.getApplicationId()).isSameAs(findId);
+        assertThat(actual.getName()).isSameAs(request.getName());
     }
 }

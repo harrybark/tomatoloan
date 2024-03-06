@@ -23,7 +23,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     private final ApplicationRespository applicationRespository;
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = false)
     public Response create(Request request) {
         Application application = modelMapper.map(request, Application.class);
         application.setAppliedAt(LocalDateTime.now());
@@ -38,6 +38,21 @@ public class ApplicationServiceImpl implements ApplicationService {
         Application application = applicationRespository.findById(applicationId).orElseThrow(() -> {
             throw new BaseException(ResultType.SYSTEM_ERROR);
         });
+        return modelMapper.map(application, Response.class);
+    }
+
+    @Override
+    @Transactional(readOnly = false)
+    public Response update(Long applicationId, Request request) {
+        Application application = applicationRespository.findById(applicationId).orElseThrow(() -> {
+            throw new BaseException(ResultType.SYSTEM_ERROR);
+        });
+
+        application.setName(request.getName());
+        application.setEmail(request.getEmail());
+        application.setCellPhone(request.getCellPhone());
+        application.setHopeAmount(request.getHopeAmount());
+
         return modelMapper.map(application, Response.class);
     }
 }
