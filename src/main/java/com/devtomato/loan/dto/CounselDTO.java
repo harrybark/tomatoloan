@@ -3,9 +3,10 @@ package com.devtomato.loan.dto;
 import jakarta.persistence.Column;
 import lombok.*;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class CounselDTO {
+public class CounselDTO implements Serializable {
 
     @NoArgsConstructor
     @AllArgsConstructor
