@@ -96,4 +96,21 @@ class ApplicationServiceTest {
         assertThat(actual.getApplicationId()).isSameAs(findId);
         assertThat(actual.getName()).isSameAs(request.getName());
     }
+
+    @Test
+    void Should_DeleteApplicationEntity_When_RequestDeleteExistApplicationInfo() {
+        Long targetId = 1L;
+
+        Application entity = Application.builder()
+                .applicationId(1L)
+                .build();
+
+        //Dirty Checking 때문에 주석함
+        //when(counselRepository.save(ArgumentMatchers.any(Counsel.class))).thenReturn(entity);
+        when(applicationRespository.findById(targetId)).thenReturn(Optional.ofNullable(entity));
+
+        applicationService.delete(targetId);
+
+        assertThat(entity.getIsDeleted()).isSameAs(true);
+    }
 }
