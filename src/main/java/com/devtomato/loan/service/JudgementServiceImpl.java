@@ -61,6 +61,20 @@ public class JudgementServiceImpl implements JudgementService {
         return modelMapper.map(entity, Response.class);
     }
 
+    @Override
+    @Transactional(readOnly = false)
+    public Response update(Long judgementId, Request request) {
+
+        Judgement entity = judgementRepository.findById(judgementId).orElseThrow(() -> {
+            throw new BaseException(SYSTEM_ERROR);
+        });
+
+        entity.setName(request.getName());
+        entity.setApprovalAmount(request.getApprovalAmount());
+
+        return modelMapper.map(entity, Response.class);
+    }
+
     private boolean isPresentApplication(Long applicationId) {
         return applicationRespository.findById(applicationId).isPresent();
     }
