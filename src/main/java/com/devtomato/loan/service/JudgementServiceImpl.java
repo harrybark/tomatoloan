@@ -12,6 +12,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -35,6 +37,28 @@ public class JudgementServiceImpl implements JudgementService {
         Judgement entity = modelMapper.map(request, Judgement.class);
         Judgement judgement = judgementRepository.save(entity);
         return modelMapper.map(judgement, Response.class);
+    }
+
+    @Override
+    public Response get(Long judgementId) {
+        Judgement judgement = judgementRepository.findById(judgementId).orElseThrow(() -> {
+            throw new BaseException(SYSTEM_ERROR);
+        });
+
+        return modelMapper.map(judgement, Response.class);
+    }
+
+    @Override
+    public Response getJudgementOfApplication(Long applicationId) {
+        if(!isPresentApplication(applicationId)) {
+            throw new BaseException(SYSTEM_ERROR);
+        }
+
+        Judgement entity = judgementRepository.findByApplicationId(applicationId).orElseThrow(() -> {
+            throw new BaseException(SYSTEM_ERROR);
+        });
+
+        return modelMapper.map(entity, Response.class);
     }
 
     private boolean isPresentApplication(Long applicationId) {
