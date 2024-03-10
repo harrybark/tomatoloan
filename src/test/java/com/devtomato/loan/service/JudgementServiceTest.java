@@ -2,6 +2,8 @@ package com.devtomato.loan.service;
 
 import com.devtomato.loan.domain.Application;
 import com.devtomato.loan.domain.Judgement;
+import com.devtomato.loan.dto.ApplicationDTO;
+import com.devtomato.loan.dto.ApplicationDTO.GrantAmount;
 import com.devtomato.loan.dto.JudgementDTO.*;
 import com.devtomato.loan.repository.ApplicationRepository;
 import com.devtomato.loan.repository.JudgementRepository;
@@ -119,5 +121,44 @@ public class JudgementServiceTest {
 
         assertThat(actual.getJudgmentId()).isSameAs(findId);
         assertThat(actual.getName()).isSameAs(request.getName());
+    }
+
+    @Test
+    void Should_DeletedJudgmentEntity_When_RequestDeleteExistJudgmentInfo() {
+        Long targetId = 1L;
+
+        Judgement entity = Judgement.builder()
+                .judgmentId(1L)
+                .build();
+
+        when(judgmentRepository.findById(targetId)).thenReturn(Optional.ofNullable(entity));
+
+        judgmentService.delete(targetId);
+
+        assertThat(entity.getIsDeleted()).isSameAs(true);
+    }
+
+    @Test
+    void Should_ReturnUpdatedResponseOfExistApplicationEntity_When_RequestGrantApprovalAmountOfJudgmentInfo() {
+        Long findId = 1L;
+
+        Judgement judgmentEntity = Judgement.builder()
+                .name("Member Kim")
+                .applicationId(findId)
+                .approvalAmount(BigDecimal.valueOf(50000000))
+                .build();
+
+        Application applicationEntity = Application.builder()
+                .applicationId(findId)
+                .approvalAmount(BigDecimal.valueOf(50000000))
+                .build();
+
+        when(judgmentRepository.findById(findId)).thenReturn(Optional.ofNullable(judgmentEntity));
+        when(applicationRepository.findById(findId)).thenReturn(Optional.ofNullable(applicationEntity));
+
+        GrantAmount actual = judgmentService.grant(findId);
+
+        assertThat(actual.getApplicationId()).isSameAs(findId);
+        assertThat(actual.getApprovalAmount()).isSameAs(judgmentEntity.getApprovalAmount());
     }
 }
