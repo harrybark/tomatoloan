@@ -1,7 +1,7 @@
 package com.devtomato.loan.service;
 
 import com.devtomato.loan.exception.BaseException;
-import com.devtomato.loan.repository.ApplicationRespository;
+import com.devtomato.loan.repository.ApplicationRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,7 +28,7 @@ import static com.devtomato.loan.exception.ResultType.SYSTEM_ERROR;
 @Transactional(readOnly = true)
 public class FileStorageServiceImpl implements FileStorageService {
 
-    private final ApplicationRespository applicationRespository;
+    private final ApplicationRepository applicationRespository;
 
     @Value("${spring.jpa.servlet.multipart.location}")
     private String uploadPath;
