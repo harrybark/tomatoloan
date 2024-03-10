@@ -3,19 +3,17 @@ package com.devtomato.loan.service;
 import com.devtomato.loan.domain.AcceptTerms;
 import com.devtomato.loan.domain.Application;
 import com.devtomato.loan.domain.Terms;
-import com.devtomato.loan.dto.ApplicationDTO;
 import com.devtomato.loan.dto.ApplicationDTO.AcceptTermsDTO;
 import com.devtomato.loan.dto.ApplicationDTO.Request;
 import com.devtomato.loan.dto.ApplicationDTO.Response;
 import com.devtomato.loan.exception.BaseException;
 import com.devtomato.loan.exception.ResultType;
 import com.devtomato.loan.repository.AcceptTermsRepository;
-import com.devtomato.loan.repository.ApplicationRespository;
+import com.devtomato.loan.repository.ApplicationRepository;
 import com.devtomato.loan.repository.TermsRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
@@ -31,7 +29,6 @@ import java.util.Optional;
 
 import static com.devtomato.loan.dto.ApplicationDTO.AcceptTermsDTO.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -42,7 +39,7 @@ class ApplicationServiceTest {
     ApplicationServiceImpl applicationService;
 
     @Mock
-    private ApplicationRespository applicationRepository;
+    private ApplicationRepository applicationRepository;
 
     @Mock
     private TermsRepository termsRepository;

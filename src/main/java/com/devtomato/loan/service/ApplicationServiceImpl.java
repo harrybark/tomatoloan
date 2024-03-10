@@ -4,14 +4,13 @@ import com.devtomato.loan.domain.Application;
 import com.devtomato.loan.domain.Terms;
 import com.devtomato.loan.domain.AcceptTerms;
 
-import com.devtomato.loan.dto.ApplicationDTO;
 import com.devtomato.loan.dto.ApplicationDTO.AcceptTermsDTO;
 import com.devtomato.loan.dto.ApplicationDTO.Request;
 import com.devtomato.loan.dto.ApplicationDTO.Response;
 import com.devtomato.loan.exception.BaseException;
 import com.devtomato.loan.exception.ResultType;
 import com.devtomato.loan.repository.AcceptTermsRepository;
-import com.devtomato.loan.repository.ApplicationRespository;
+import com.devtomato.loan.repository.ApplicationRepository;
 import com.devtomato.loan.repository.TermsRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -25,8 +24,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.devtomato.loan.domain.AcceptTerms.*;
-
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -37,7 +34,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     private final TermsRepository termsRepository;
 
     private final AcceptTermsRepository acceptTermsRepository;
-    private final ApplicationRespository applicationRepository;
+    private final ApplicationRepository applicationRepository;
 
     @Override
     @Transactional(readOnly = false)
